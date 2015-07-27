@@ -1,8 +1,10 @@
 "use strict";
-const http = require('http');
+const http       = require('http');
+const fs         = require("fs")
 const onPostData = require("./onPostData")
 
-const PORT = 3000
+const PORT     = 3004
+const getHTML  = fs.readFileSync('./form.html')
 
 http.createServer(function(req, res) {
   switch(req.method){
@@ -11,6 +13,10 @@ http.createServer(function(req, res) {
         console.log(body)
       })
       break;
+    case "GET":
+      console.log(req.url)
+      res.writeHead(200, {'Content-Type': 'text/html','Content-Length':getHTML.length});
+      res.write(getHTML);
     default:
       res.writeHead(404, {'content-type': 'text/plain'});
       res.end('404');
